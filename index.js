@@ -1,23 +1,13 @@
-function zigzagLevelOrder(root) {
-  if (!root) return [];
-  const result = [];
-  let isReverse = false;
-  const queue = [root];
-  while (queue.length) {
-    const size = queue.length;
-    const level = [];
-    for (let i = 0; i < size; i++) {
-      const node = queue.shift();
-      if (isReverse) {
-        level.unshift(node.val);
-      } else {
-        level.push(node.val);
-      }
-      if (node.left) queue.push(node.left);
-      if (node.right) queue.push(node.right);
-    }
-    result.push(level);
-    isReverse = !isReverse;
-  }
-  return result;
+function buildTree(preorder, inorder) {
+  if (preorder.length === 0 || inorder.length === 0) return null;
+  const rootVal = preorder[0];
+  const root = new TreeNode(rootVal);
+  const index = inorder.indexOf(rootVal);
+  const leftInorder = inorder.slice(0, index);
+  const rightInorder = inorder.slice(index + 1);
+  const leftPreorder = preorder.slice(1, 1 + leftInorder.length);
+  const rightPreorder = preorder.slice(1 + leftInorder.length);
+  root.left = buildTree(leftPreorder, leftInorder);
+  root.right = buildTree(rightPreorder, rightInorder);
+  return root;
 }
