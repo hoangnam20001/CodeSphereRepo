@@ -1,17 +1,8 @@
-function sortColors(nums) {
-  let left = 0;
-  let right = nums.length - 1;
-  let i = 0;
-  while (i <= right) {
-    if (nums[i] === 0) {
-      [nums[i], nums[left]] = [nums[left], nums[i]];
-      left++;
-      i++;
-    } else if (nums[i] === 2) {
-      [nums[i], nums[right]] = [nums[right], nums[i]];
-      right--;
-    } else {
-      i++;
-    }
-  }
+function sortedArrayToBST(nums) {
+  if (!nums.length) return null;
+  const mid = Math.floor(nums.length / 2);
+  const root = new TreeNode(nums[mid]);
+  root.left = sortedArrayToBST(nums.slice(0, mid));
+  root.right = sortedArrayToBST(nums.slice(mid + 1));
+  return root;
 }
